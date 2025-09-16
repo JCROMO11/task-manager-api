@@ -1,0 +1,35 @@
+services:
+  # PostgreSQL Database
+  db:
+    image: postgres:14
+    restart: always
+    environment:
+      POSTGRES_USER: task_user
+      POSTGRES_PASSWORD: taskpassword123
+      POSTGRES_DB: task_manager_db
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U task_user -d task_manager_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Tu API
+  api:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: postgresql+psycopg2://task_user:taskpassword123@db:5432/task_manager_db
+      APP_ENV: docker
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - .:/app
+
+volumes:
+  postgres_data:
