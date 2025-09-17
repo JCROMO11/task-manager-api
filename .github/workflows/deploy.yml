@@ -1,0 +1,43 @@
+name: 🚀 Task Manager CI/CD
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test-and-deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    # 📥 Download code
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    # 🐍 Setup Python
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+    
+    # 📦 Install dependencies
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install pytest pytest-cov
+    
+    # 🧪 Run tests (básicos por ahora)
+    - name: Run basic tests
+      run: |
+        python -c "import main; print('✅ FastAPI imports correctly')"
+        python -c "import database; print('✅ Database config works')"
+        echo "✅ Basic smoke tests passed"
+    
+    # 🎉 Success notification
+    - name: Deploy notification
+      run: |
+        echo "✅ CI passed! Ready for deployment"
+        echo "🚀 Repository: ${{ github.repository }}"
+        echo "📝 Commit: ${{ github.sha }}"
