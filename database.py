@@ -9,13 +9,14 @@ load_dotenv()
 # Detectar entorno
 env_type = os.getenv("APP_ENV", "local")
 
-# Configuración de base de datos
+# NUEVO: Railway environment handling
 if env_type == "docker":
-    DATABASE_URL = os.getenv("DATABASE_URL_DOCKER", "postgresql+psycopg2://task_user:taskpassword123@db:5432/task_manager_db")
+    # Primero intentar DATABASE_URL (Railway), después fallback local
+    DATABASE_URL = os.getenv("DATABASE_URL") or os.getenv("DATABASE_URL_DOCKER")
 else:
-    DATABASE_URL = os.getenv("DATABASE_URL_LOCAL", "postgresql+psycopg2://task_user:taskpassword123@localhost:5433/task_manager_db")
+    DATABASE_URL = os.getenv("DATABASE_URL_LOCAL")
 
-print(f"🔗 Conectando a: {DATABASE_URL.replace('taskpassword123', '***')}")
+print(f"🔗 Conectando a: {DATABASE_URL.replace('password', '***') if DATABASE_URL else 'No DATABASE_URL'}")
 
 # Configuración SQLAlchemy
 engine = create_engine(DATABASE_URL, echo=True)  
