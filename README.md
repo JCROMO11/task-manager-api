@@ -208,8 +208,9 @@ This project is open source and available under the [MIT License](LICENSE).
 
 **Jose Romo** - Backend Developer specializing in FastAPI and medical applications
 - GitHub: [@JCROMO11](https://github.com/JCROMO11)
-- LinkedIn: [Your LinkedIn Profile](https://linkedin.com/in/your-profile)
+- LinkedIn: [Your LinkedIn Profile](www.linkedin.com/in/jose-carlos-romo11)
 
 ---
 
 ⭐ **Star this repository if it helped you build better APIs!**
+
